@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary_color">#FF9D4C</color>
+    <color name="user_message_text_color">#ffffffd9</color>
+
+    <style name="Theme.QwenPawChat" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary_color</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <item name="colorSecondary">@color/primary_color</item>
+        <item name="android:statusBarColor">@color/primary_color</item>
+    </style>
+</resources>

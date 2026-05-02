@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="4dp">
+
+    <TextView
+        android:id="@+id/textViewMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/message_background_user"
+        android:padding="12dp"
+        android:textColor="#ffffffd9"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewMessageTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textColor="#999999"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@id/textViewMessage"
+        app:layout_constraintTop_toBottomOf="@id/textViewMessage" />
+
+    <TextView
+        android:id="@+id/textViewAssistant"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/message_background_assistant"
+        android:padding="12dp"
+        android:textColor="#212121"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@id/textViewMessage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewAssistantTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textColor="#999999"
+        android:textSize="10sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@id/textViewAssistant"
+        app:layout_constraintTop_toBottomOf="@id/textViewAssistant" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
