@@ -8,10 +8,9 @@
 
 ## capture
 
-| 截图 | 描述 |
-| --- | --- |
-| ![login](docs/assets/capture/login.png) | 登录页面 |
-| ![chat](docs/assets/capture/chat.png) | 聊天主页面 |
+| 截图 | 描述 | 截图 | 描述 |
+| --- | --- | --- | --- |
+| ![login](docs/assets/capture/login.png) | 登录页面 | ![chat](docs/assets/capture/chat.png) | 聊天主页面 |
 
 ## 技术栈
 
