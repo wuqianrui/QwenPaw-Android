@@ -10,10 +10,8 @@
 
 | 截图 | 描述 |
 | --- | --- |
-| ![login](capture/login.png) | 登录页面 |
-| ![chat](capture/chat.png) | 聊天主页面 |
-
-
+| ![login](docs/assets/capture/login.png) | 登录页面 |
+| ![chat](docs/assets/capture/chat.png) | 聊天主页面 |
 
 ## 技术栈
 
