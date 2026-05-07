@@ -1,9 +1,11 @@
 pluginManagement {
     repositories {
+        /* nexus */
         maven {
             url = uri("http://192.168.1.3:7667/repository/gti12-maven-group/")
             allowInsecureProtocol = true
         }
+
         google()
         mavenCentral()
         gradlePluginPortal()

@@ -34,8 +34,11 @@ class LoginActivity : AppCompatActivity() {
         authService = AuthService()
 
         initViews()
-        setupListeners()
         loadSavedBaseUrl()
+        loadSavedAccount()
+        setupListeners()
+
+
     }
 
     private fun initViews() {
@@ -74,6 +77,15 @@ class LoginActivity : AppCompatActivity() {
         val savedBaseUrl = tokenManager.getBaseUrl()
         if (!savedBaseUrl.isNullOrEmpty()) {
             editTextBaseUrl.setText(savedBaseUrl)
+        }
+    }
+
+    private fun loadSavedAccount(){
+        val account = tokenManager.getUsername();
+        val password = tokenManager.getPassword();
+        if(account.isNotEmpty() && password.isNotEmpty()){
+            editTextUsername.setText(account)
+            editTextPassword.setText(password)
         }
     }
 

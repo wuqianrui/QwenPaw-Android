@@ -55,5 +55,15 @@ dependencies {
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
+    implementation("cn.6tail:lunar:1.7.7")
     kapt("androidx.room:room-compiler:2.6.1")
+
+    // 对话流式组件
+    implementation("io.getstream:stream-chat-android-ai-compose:0.2.0")
+
+    // 设备兼容框架：https://github.com/getActivity/DeviceCompat
+    implementation("com.github.getActivity:DeviceCompat:2.6")
+    implementation("com.github.getActivity:XXPermissions:28.2")
+
+
 }

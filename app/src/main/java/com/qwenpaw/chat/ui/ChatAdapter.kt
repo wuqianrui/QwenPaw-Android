@@ -1,9 +1,15 @@
 package com.qwenpaw.chat.ui
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.qwenpaw.chat.R
 import com.qwenpaw.chat.model.ChatMessage
@@ -48,7 +54,7 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.MessageViewHolder>() {
 
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
         val message = messages[position]
-        holder.bind(message, dateFormat)
+        holder.bind(message, dateFormat) { showContextMenu(it, message.content) }
     }
 
     override fun getItemCount(): Int = messages.size
@@ -59,8 +65,9 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.MessageViewHolder>() {
         private val textViewAssistant: TextView = itemView.findViewById(R.id.textViewAssistant)
         private val textViewAssistantTime: TextView = itemView.findViewById(R.id.textViewAssistantTime)
 
-        fun bind(message: ChatMessage, dateFormat: SimpleDateFormat) {
+        fun bind(message: ChatMessage, dateFormat: SimpleDateFormat, onLongClick: (View) -> Unit) {
             val timeText = dateFormat.format(Date(message.timestamp))
+
             when (message.role) {
                 "user" -> {
                     textViewMessage.visibility = View.VISIBLE
@@ -69,6 +76,11 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.MessageViewHolder>() {
                     textViewAssistantTime.visibility = View.GONE
                     textViewMessage.text = message.content
                     textViewMessageTime.text = timeText
+
+                    textViewMessage.setOnLongClickListener { view ->
+                        onLongClick(view)
+                        true
+                    }
                 }
                 "assistant" -> {
                     textViewMessage.visibility = View.GONE
@@ -77,8 +89,39 @@ class ChatAdapter : RecyclerView.Adapter<ChatAdapter.MessageViewHolder>() {
                     textViewAssistantTime.visibility = View.VISIBLE
                     textViewAssistant.text = message.content
                     textViewAssistantTime.text = timeText
+
+                    textViewAssistant.setOnLongClickListener { view ->
+                        onLongClick(view)
+                        true
+                    }
                 }
             }
+        }
+
+        private fun showContextMenu(anchorView: View, content: String) {
+            val context = anchorView.context
+            val popupMenu = PopupMenu(context, anchorView, Gravity.CENTER)
+
+            popupMenu.menuInflater.inflate(R.menu.message_context_menu, popupMenu.menu)
+
+            popupMenu.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.action_copy -> {
+                        copyToClipboard(context, content)
+                        true
+                    }
+                    else -> false
+                }
+            }
+
+            popupMenu.show()
+        }
+
+        private fun copyToClipboard(context: Context, text: String) {
+            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("message", text)
+            clipboard.setPrimaryClip(clip)
+            Toast.makeText(context, "已复制到剪贴板", Toast.LENGTH_SHORT).show()
         }
     }
 }
