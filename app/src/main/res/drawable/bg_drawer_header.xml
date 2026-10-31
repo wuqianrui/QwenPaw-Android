@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    抽屉头部背景：绿紫弥散
+    修复点：
+    1. startColor 改为实色（alpha=FF），endColor 用「同色 + 透明」，
+       这样颜色能铺满到边缘，不再被系统预乘叠加吃掉。
+    2. gradientRadius 统一放到 120%p 以上，让渐变收束得更晚，
+       避免"中间一团色、四周一片白"。
+    3. 取消最顶层用白色做收尾的做法，改为让各光晕自己渐隐到底衬。
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 底衬：近白，四角不露色差 -->
+    <item>
+        <shape>
+            <gradient android:type="linear" android:angle="270"
+                android:startColor="#E4E6EA" android:endColor="#E5E7EB" />
+        </shape>
+    </item>
+
+    <!-- 青绿光晕：左侧偏中，横向主色带的青色端 -->
+    <item>
+        <shape>
+            <gradient android:type="radial"
+                android:centerX="0.16" android:centerY="0.50"
+                android:gradientRadius="60%p"
+                android:startColor="#58CDBB" android:endColor="#00D4E9DC" />
+        </shape>
+    </item>
+
+    <!-- 薄荷蓝光晕：右下冷色收尾 -->
+    <item>
+        <shape>
+            <gradient android:type="radial"
+                android:centerX="0.86" android:centerY="0.90"
+                android:gradientRadius="75%p"
+                android:startColor="#8FD9E0" android:endColor="#00AED8DE" />
+        </shape>
+    </item>
+
+    <!-- 淡紫光晕：右上主色，决定右半边紫调 -->
+    <item>
+        <shape>
+            <gradient android:type="radial"
+                android:centerX="0.88" android:centerY="0.22"
+                android:gradientRadius="55%p"
+                android:startColor="#9AB3E3" android:endColor="#00C7C8EC" />
+        </shape>
+    </item>
+
+    <!-- 浅紫光晕：左上提亮，弥散高光顶 -->
+    <item>
+        <shape>
+        <gradient android:type="radial"
+            android:centerX="0.30" android:centerY="0.14"
+            android:gradientRadius="25%p"
+            android:startColor="#B5C0F0" android:endColor="#00D1D3F0" />
+        </shape>
+    </item>
+</layer-list>

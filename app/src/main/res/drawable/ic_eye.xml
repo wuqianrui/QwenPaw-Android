@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 眼睛图标:标识模型支持图片输入(supports_image)。
+     采用镂空设计:眼形轮廓与瞳孔为主体填充色,虹膜环与四周镂空透明,
+     叠加在角标的彩色圆底上时呈现"描边眼 + 实心瞳"的轻量多媒体标识 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <!-- evenOdd 填充:外层眼形 → 填充;虹膜圆 → 镂空;瞳孔圆 → 再填充 -->
+    <path
+        android:fillColor="@color/primary_color"
+        android:fillType="evenOdd"
+        android:pathData="M12,5C7.39,5 3.36,7.83 1.5,12c1.86,4.17 5.89,7 10.5,7s8.64,-2.83 10.5,-7C20.64,7.83 16.61,5 12,5zM12,17.2c-2.87,0 -5.2,-2.33 -5.2,-5.2S9.13,6.8 12,6.8s5.2,2.33 5.2,5.2 -2.33,5.2 -5.2,5.2z" />
+    <!-- 实心瞳孔:居中圆点,与眼形同色 -->
+    <path
+        android:fillColor="@color/primary_color"
+        android:pathData="M12,14.2a2.2,2.2 0,1 0,0 -4.4a2.2,2.2 0,1 0,0 4.4z" />
+</vector>

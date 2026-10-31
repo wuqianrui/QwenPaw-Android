@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 主色(简约黑白:主操作用近黑色,弱化彩色) -->
+    <color name="primary_color">#1F2329</color>
+    <color name="primary_color_deep">#33383F</color>
+    <color name="primary_color_light">#F2F3F5</color>
+    <color name="primary_color_ripple">#1A1F2329</color>
+
+    <color name="icon_color">#1F2329</color>
+
+    <!-- 页面/卡片 -->
+    <color name="bg_page">#F6F7FB</color>
+    <color name="bg_card">#FFFFFF</color>
+    <color name="bg_input">#FFFFFF</color>
+    <color name="stroke_card">#EFF0F4</color>
+    <color name="divider">#F0F0F5</color>
+
+    <!-- 气泡对话 -->
+<!--    <color name="bg_color_message_assistant">#D9E8FF</color>-->
+    <color name="bg_color_message_assistant">#CEF2FF</color>
+<!--    <color name="bg_color_message_user">#BCE7EF</color>-->
+    <color name="bg_color_message_user">#C2F6EC</color>
+    <color name="user_message_text_color">#FF193E46</color>
+    <color name="assistant_message_text_color">#093468</color>
+
+    <!-- 文字 -->
+    <color name="text_primary">#1F2329</color>
+    <color name="text_secondary">#6B7280</color>
+    <color name="text_hint">#9CA3AF</color>
+    <color name="text_time">#B4B9C4</color>
+
+
+    <!-- 功能色 -->
+    <color name="color_danger">#F04438</color>
+
+    <!-- 系统色板(iOS System Colors 语义色)
+         red 高警示/强识别 · orange 温暖/活跃 · yellow 明亮/提醒 · green 自然/通过
+         teal 清爽/科技感 · blue 默认/信任 · purple 创意/个性 · pink 柔和/点缀 -->
+    <color name="system_red">#FF3B30</color>
+    <color name="system_orange">#FF9500</color>
+    <color name="system_yellow">#FFCC00</color>
+    <color name="system_green">#34C759</color>
+    <color name="system_teal">#30B0C7</color>
+    <color name="system_blue">#007AFF</color>
+    <color name="system_purple">#AF52DE</color>
+    <color name="system_pink">#FF2D55</color>
+
+    <!-- GrokBot / AIFace 组件舞台默认底色 -->
+    <color name="mascot_stage">#ECE6D9</color>
+</resources>

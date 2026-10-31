@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 对话页(从会话列表进入):返回键 + 会话名标题 + 环境徽标 + 消息列表 + 输入栏 -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_page">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/bg_primary_gradient"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_back"
+        app:navigationIconTint="@color/text_primary"
+        app:titleTextAppearance="@style/TextAppearance.ToolbarTitle"
+        app:titleTextColor="@color/text_primary" />
+
+    <!-- 当前模型图标:按当前 agent 的 active_model 匹配(见 ModelIcons),点击弹出切换模型弹窗;
+         支持图片输入的模型(supports_image)右下角叠加小眼睛角标 -->
+    <FrameLayout
+        android:id="@+id/toolbarModelContainer"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="4dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="切换模型"
+        app:layout_constraintBottom_toBottomOf="@id/toolbar"
+        app:layout_constraintEnd_toEndOf="@id/toolbar"
+        app:layout_constraintTop_toTopOf="@id/toolbar">
+
+        <ImageView
+            android:id="@+id/imageViewToolbarModel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="12dp"
+            android:scaleType="fitCenter" />
+
+        <!-- 多媒体模型眼睛角标:右下角,模型支持图片输入时显示 -->
+        <ImageView
+            android:id="@+id/imageViewEyeBadge"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_eye_badge"
+            android:contentDescription="支持图片输入"
+            android:padding="1dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_eye"
+            android:visibility="gone" />
+    </FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewMessages"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/inputContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <!-- 待发送图片预览:圆角缩略图 + 右上角悬浮移除按钮,选图后显示,发送/移除后隐藏 -->
+    <FrameLayout
+        android:id="@+id/attachmentPreviewContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:layout_marginBottom="6dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/inputContainer"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/imageViewAttachmentPreview"
+            android:layout_width="88dp"
+            android:layout_height="88dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="6dp"
+            android:contentDescription="待发送图片"
+            android:scaleType="centerCrop" />
+
+        <ImageButton
+            android:id="@+id/buttonRemoveAttachment"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="end|top"
+            android:background="@drawable/bg_attachment_badge"
+            android:contentDescription="移除图片"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_close" />
+    </FrameLayout>
+
+    <!-- 悬浮输入栏 -->
+    <LinearLayout
+        android:id="@+id/inputContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_card"
+        android:elevation="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="8dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <!-- 附件按钮:系统相册选图(Photo Picker),选图后先上传再随消息发送 -->
+        <ImageButton
+            android:id="@+id/buttonAttach"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="添加图片"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_add" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/editTextMessage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/bg_input_field"
+            android:hint="输入消息..."
+            android:inputType="textMultiLine"
+            android:maxLines="4"
+            android:minHeight="40dp"
+            android:paddingStart="18dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="18dp"
+            android:paddingBottom="12dp"
+            android:textSize="15sp" />
+
+        <ImageButton
+            android:id="@+id/buttonSend"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            tools:visibility="invisible"
+            android:visibility="gone"
+            android:background="@drawable/bg_send_button"
+            android:contentDescription="发送"
+            android:src="@drawable/ic_send" />
+
+        <com.qwenpaw.chat.widget.AIFaceView
+            android:id="@+id/ai_face"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="10dp"
+            app:layout_constraintEnd_toEndOf="@id/toolbar"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            />
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/primary_color"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/inputContainer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

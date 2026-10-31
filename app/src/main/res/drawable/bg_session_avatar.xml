@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  会话头像块:网格渐变(mesh gradient)背景 —— 纯 XML drawable(layer-list + shape),不用自定义 View
+  头像块尺寸固定 40dp x 40dp,故 layer-list 不支持百分比,团块宽高按 90% 写成 36dp
+  层序由下到上: 底色 #F3F3F3 → 上白下青线性渐变 → 左下蓝色团 → 右下薄荷绿团 → 右中浅青雾
+-->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 0. 底板:整体背景色,兜住圆角外的空隙 -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#D3D4D5" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <!-- 1. 基础渐变:上半近白,向下过渡到浅青(270° = 自上而下) -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="270"
+                android:startColor="#D3D4D5"
+                android:centerColor="#EDFAF8"
+                android:endColor="#DFF6F2"
+                android:type="linear" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <!-- 2. 左下角饱和蓝团:中心偏向左下角,向外柔散到全透明 -->
+    <item
+        android:width="36dp"
+        android:height="36dp"
+        android:gravity="bottom|left">
+        <shape android:shape="rectangle">
+            <gradient
+                android:centerX="0.22"
+                android:centerY="0.89"
+                android:endColor="#002F7BF5"
+                android:gradientRadius="20dp"
+                android:startColor="#2F7BF5"
+                android:type="radial" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <!-- 3. 右下角薄荷绿团:与左下蓝团镜像,两团在底部中间自然融合 -->
+    <item
+        android:width="36dp"
+        android:height="36dp"
+        android:gravity="bottom|right">
+        <shape android:shape="rectangle">
+            <gradient
+                android:centerX="0.78"
+                android:centerY="0.89"
+                android:endColor="#0062F6CE"
+                android:gradientRadius="20dp"
+                android:startColor="#62F6CE"
+                android:type="radial" />
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <!-- 4. 右中浅青雾(可选层):更淡的过渡,柔化右侧留白 -->
+    <item
+        android:width="28dp"
+        android:height="28dp"
+        android:gravity="right|center_vertical">
+        <shape android:shape="rectangle">
+            <gradient
+                android:centerX="0.8"
+                android:centerY="0.5"
+                android:endColor="#00C2F6EC"
+                android:gradientRadius="16dp"
+                android:startColor="#99C2F6EC"
+                android:type="radial" />
+            <corners android:radius="12dp" />
+        </shape>
+    </item>
+</layer-list>

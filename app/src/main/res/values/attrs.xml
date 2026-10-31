@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ========== 共用属性：两个组件同名语义的属性都在这声明 ========== -->
+
+    <!-- ============================================================
+         名值型属性一律用 format="string"，**不要改成 enum**。
+         ============================================================
+         原因（aapt2 实测）：enum 属性的值在编译期会被折算成 int，
+         布局里写的 "violet" 落到 TypedArray 里是 8；
+         而 `TypedArray.getString()` 对非字符串只会做 coerceToString，
+         拿到的是 **"8" 这个序号字符串，而不是 "violet"**。
+         组件内部是按名字查表（Theme.INK_FG / stageShape == "rounded"），
+         于是 XML 里配的调色板会被静默忽略、悄悄退回默认黑色。
+
+         实测对照（aapt2 dump xmltree）：
+           app:tEnum="violet"   (format=enum)    -> =8          getString() = "8"
+           app:tString="violet" (format=string)  -> ="violet"   getString() = "violet"
+           app:tBare="black"    (无 format)      -> ="black"    getString() = "black"
+
+         所以这里声明的字符串值**就是** Kotlin API 用的标识符，
+         做到「一个名字一套数据」，不必再维护 int 到名字的映射表。
+         合法值靠注释 + lint-aiFace.mjs 的断言（比对 XML 里的取值与
+         Theme.INK_FG 的键）兜住。
+
+         另注：attr 只要出现在 declare-styleable 里就必须有全局定义，
+         光写 <attr name="x" /> 会被 aapt2 当成「引用已存在的 attr」，
+         链接期直接报 `resource attr/x not found`，R.styleable 里也不会有字段。
+         ============================================================ -->
+
+    <!-- 调色板：black/brown/red/orange/yellow/green/cyan/blue/violet/magenta/gray -->
+    <attr name="grokPalette" format="string" />
+    <!-- 明暗方案：light / dark（调色板随方案取不同明度） -->
+    <attr name="grokScheme" format="string" />
+    <!-- 舞台形状：circle / rounded / none -->
+    <attr name="grokStageShape" format="string" />
+
+    <!-- 本体主色：设了就覆盖调色板，走自定义单色 -->
+    <attr name="grokFgColor" format="color" />
+    <!-- 墨色渐变终点：默认由调色板/主色推导（源码 135° 渐变） -->
+    <attr name="grokInkColor" format="color" />
+    <!-- 眼睛颜色（画在身体上的镂空色） -->
+    <attr name="grokBgColor" format="color" />
+    <!-- 舞台底色 -->
+    <attr name="grokStageColor" format="color" />
+    <!-- 眼睛是否跟随手指 -->
+    <attr name="grokFollowPointer" format="boolean" />
+    <!-- 是否自动巡演（onboarding） -->
+    <attr name="grokAutoOnboarding" format="boolean" />
+    <!-- 初始情绪状态名 -->
+    <attr name="grokInitialState" format="string" />
+
+    <!-- ========== 纯角色 View：需要自己提供容器时才用 ========== -->
+    <declare-styleable name="GrokBotView">
+        <attr name="grokPalette" />
+        <attr name="grokScheme" />
+        <attr name="grokFgColor" />
+        <attr name="grokInkColor" />
+        <attr name="grokBgColor" />
+        <attr name="grokFollowPointer" />
+        <attr name="grokAutoOnboarding" />
+        <attr name="grokInitialState" />
+    </declare-styleable>
+
+    <!-- ========== 组件自有属性：aiFace* 前缀 ========== -->
+    <!-- 名值型四个（palette / scheme / stageShape / backdrop）与 grok* 同义，
+         同样必须是 format="string"（见文件顶部说明，不能改成 enum）。
+         它们是**独立的 attr**：Android 的 attr 按名字全局唯一，同名才算共享，
+         换前缀就得重新声明一次。这里刻意换前缀，是为了让 AIFaceView
+         的属性在布局里成组出现（aiFacePalette / aiFaceScheme / ... 一眼可辨）。 -->
+    <!-- black/brown/red/orange/yellow/green/cyan/blue/violet/magenta/gray -->
+    <attr name="aiFacePalette" format="string" />
+    <!-- light / dark -->
+    <attr name="aiFaceScheme" format="string" />
+    <!-- circle / rounded / none -->
+    <attr name="aiFaceStageShape" format="string" />
+    <!-- solid / aurora。见下方 declare-styleable 内的说明 -->
+    <attr name="aiFaceBackdrop" format="string" />
+
+    <!-- ========== 自包含组件：FrameLayout 容器 + 角色 + 背景层，XML 直接引用 ========== -->
+    <!-- 用法：<com.qwenpaw.chat.widget.AIFaceView
+                android:layout_width="260dp" android:layout_height="260dp"
+                app:aiFacePalette="violet"
+                app:aiFaceBackdrop="aurora" /> -->
+    <declare-styleable name="AIFaceView">
+        <!-- 调色板：本体+墨色的 11 套预设。
+             取值 black / brown / red / orange / yellow / green / cyan /
+             blue / violet / magenta / gray。与 aiFaceFgColor 同时给时，
+             颜色属性的优先级更高。默认 black。 -->
+        <attr name="aiFacePalette" />
+        <!-- 明暗方案，取值 light / dark。同一套调色板随方案取不同明度
+             （决定 INK_FG 表里的那一对色值取前者还是后者）。默认 light。 -->
+        <attr name="aiFaceScheme" />
+        <!-- 本体主色。给了就覆盖 aiFacePalette，改走自定义单色模式。 -->
+        <attr name="aiFaceFgColor" format="color" />
+        <!-- 墨色渐变终点（源码 135° 渐变的另一端）。
+             不写就按主色自动推导一个更深的同色系。 -->
+        <attr name="aiFaceInkColor" format="color" />
+        <!-- 眼睛颜色（画在本体上的镂空色）。默认随主题推导。 -->
+        <attr name="aiFaceBgColor" format="color" />
+        <!-- 舞台底色，优先于 android:background（后者只在没写本属性时被当作纯色取用）。
+             不写则默认 @color/mascot_stage。设为透明等于隐藏舞台。
+             仅在背景层为 solid 模式时可见。 -->
+        <attr name="aiFaceStageColor" format="color" />
+        <!-- 舞台形状，取值 circle（默认，正圆）/ rounded（矩形，圆角半径见
+             AIFaceBackdrop.cornerRadius，默认 0 即直角）/ none（不画背景）。
+             两种背景模式都按它裁剪，所以极光默认也是圆的。 -->
+        <attr name="aiFaceStageShape" />
+        <!-- 背景层模式，取值 solid（默认，纯色舞台 = aiFaceStageColor）/
+             aurora（极光流动渐变，13s 一圈，与 AuroraGradientView 同一套关键帧）。
+             两种模式都是圆形（受 aiFaceStageShape 控制）。
+             运行期切换用 AIFaceView.setBackdropMode() / backdropMode 属性。 -->
+        <attr name="aiFaceBackdrop" />
+        <!-- 是否强制量成正方形，默认 true。
+             开启后取宽高较短边作边长再按 EXACTLY 量下去，
+             所以外层用 layout_weight 拉高也只会得到正方形（圆形舞台才是正圆）。 -->
+        <attr name="aiFaceSquare" format="boolean" />
+        <!-- 最小边长，默认 48dp。父容器空间不足时也不会小于这个值，
+             避免被压成看不见。 -->
+        <attr name="aiFaceMinSize" format="dimension" />
+        <!-- 眼睛是否跟随手指，默认 false。
+             false 时角色不消费触摸事件，点击/拖动穿透给容器（方便做整体点按）。 -->
+        <attr name="aiFaceFollowPointer" format="boolean" />
+        <!-- 是否自动巡演（onboarding），默认 true。
+             开启后每约 1.2s 在 idle 与各情绪之间自动轮换；
+             手动调用 setState() 会退出巡演，resetToOnboarding() 可恢复。 -->
+        <attr name="aiFaceAutoOnboarding" format="boolean" />
+        <!-- 初始情绪状态名（如 idle / thinking / happy，共 24 个，见 AIFaceView.states）。
+             名字非法会被忽略。注意组件内部顺序：本属性先落，
+             再恢复 aiFaceAutoOnboarding，避免互相覆盖。 -->
+        <attr name="aiFaceInitialState" format="string" />
+    </declare-styleable>
+</resources>

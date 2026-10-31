@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 眼睛角标底:绿紫柔光渐变(仿 web 端 .bg-green-purple)
+     线性浅底上叠加左上绿、中部紫、右下亮白三处径向光晕,
+     椭圆 shape 保证角标为圆形,眼睛图标叠在其上 -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 底色:135° 斜向浅色渐变 #f0fdf7 → #f8f5fc → #fdfbfd -->
+    <item>
+        <shape android:shape="oval">
+            <gradient
+                android:angle="315"
+                android:centerColor="#F8F5FC"
+                android:endColor="#FDFBFD"
+                android:startColor="#F0FDF7"
+                android:type="linear" />
+        </shape>
+    </item>
+
+    <!-- 左上绿色光晕(rgba(80,220,160,0.9) 中心向外衰减) -->
+    <item android:gravity="top|start" android:width="12dp" android:height="10dp">
+        <shape android:shape="oval">
+            <gradient
+                android:centerColor="#6650DCA0"
+                android:endColor="#0064C8B4"
+                android:gradientRadius="8dp"
+                android:startColor="#E650DCA0"
+                android:type="radial" />
+        </shape>
+    </item>
+
+    <!-- 中部偏右紫色光晕(rgba(180,150,220,0.75) 中心向外衰减) -->
+    <item android:gravity="center" android:width="12dp" android:height="10dp">
+        <shape android:shape="oval">
+            <gradient
+                android:centerColor="#66A0B4E6"
+                android:endColor="#00A0B4E6"
+                android:gradientRadius="8dp"
+                android:startColor="#BFB496DC"
+                android:type="radial" />
+        </shape>
+    </item>
+
+    <!-- 右下亮白高光(rgba(230,235,245,0.6) 中心向外衰减) -->
+    <item android:gravity="bottom|end" android:width="10dp" android:height="8dp">
+        <shape android:shape="oval">
+            <gradient
+                android:endColor="#00E6EBF5"
+                android:gradientRadius="6dp"
+                android:startColor="#99E6EBF5"
+                android:type="radial" />
+        </shape>
+    </item>
+</layer-list>

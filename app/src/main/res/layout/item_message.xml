@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="6dp">
+
+    <!-- 用户气泡区:可选图片 + 文本 + 时间(历史图片无本地缓存时仅显示占位图) -->
+    <LinearLayout
+        android:id="@+id/userContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:orientation="vertical"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="320dp">
+
+        <ImageView
+            android:id="@+id/imageViewUserImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:adjustViewBounds="true"
+            android:contentDescription="图片消息"
+            android:maxHeight="280dp"
+            android:maxWidth="280dp"
+            android:scaleType="fitCenter"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/textViewMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/message_background_user"
+            android:paddingStart="16dp"
+            android:paddingTop="11dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="11dp"
+            android:shadowColor="#1A000000"
+            android:shadowDx="0"
+            android:shadowDy="1"
+            android:shadowRadius="4"
+            android:textColor="@color/user_message_text_color"
+            android:textSize="15sp"
+            android:textIsSelectable="true" />
+
+        <TextView
+            android:id="@+id/textViewMessageTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="4dp"
+            android:textColor="@color/text_time"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+    <!-- AI 气泡区:容器内按顺序渲染正文段与工具调用行(历史聚合);实时聊天仅显示 textViewAssistant -->
+    <LinearLayout
+        android:id="@+id/assistantContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="320dp">
+
+        <TextView
+            android:id="@+id/textViewAssistant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/message_background_assistant"
+            android:paddingStart="16dp"
+            android:paddingTop="11dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="11dp"
+            android:textColor="@color/assistant_message_text_color"
+            android:textSize="15sp"
+            android:textIsSelectable="true" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textViewAssistantTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="3dp"
+        android:textColor="@color/text_time"
+        android:textSize="10sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/assistantContainer" />
+
+    <!-- Agent 气泡下方的调用量小字(2.0 turn_usage) -->
+    <TextView
+        android:id="@+id/textViewAssistantUsage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/text_time"
+        android:textSize="10sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewAssistantTime" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
